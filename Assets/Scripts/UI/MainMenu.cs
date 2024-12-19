@@ -12,7 +12,7 @@ public class MainMenu : MonoBehaviour
         if (versionsText != null && GameControl.control != null)
         {
             // Set the text of the text field to the game version from GameControl
-            versionsText.text = "Version: " + GameControl.control.gameVersion;
+            versionsText.text = "Version: " + GameControl.control.profileVersion + GameControl.control.gameVersion;
         }
         else
         {
