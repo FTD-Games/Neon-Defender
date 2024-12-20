@@ -16,6 +16,10 @@ public class GameControl : MonoBehaviour
     /// Game version of the build 001, 002, ...
     /// </summary>
     public string gameVersion;
+    /// <summary>
+    /// Scene Manager for changing scenes or general scene management.
+    /// </summary>
+    public SceneLoader SceneLoader {  get; set; }
 
     void Awake()
     {
