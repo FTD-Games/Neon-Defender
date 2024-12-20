@@ -19,7 +19,7 @@ public class GameControl : MonoBehaviour
     /// <summary>
     /// Changes the scene depending on input and displays loading screen
     /// </summary>
-    public SceneLoader sceneLoader;
+    public SceneLoader SceneLoader {  get; set; }
 
     void Awake()
     {

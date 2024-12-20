@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Start Game");
-        GameControl.control.sceneLoader.LoadScene((int)Enums.E_Levels.LevelOne, $"Loading: {Enums.E_Levels.LevelOne}");
+        GameControl.control.SceneLoader.LoadScene((int)Enums.E_Levels.LevelOne, $"Loading: {Enums.E_Levels.LevelOne}");
     }
 
     /// <summary>

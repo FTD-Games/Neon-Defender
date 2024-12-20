@@ -639,8 +639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developmentState: 0
   profileVersion: A
-  gameVersion: 002
-  sceneLoader: {fileID: 0}
+  gameVersion: 003
 --- !u!4 &714926126
 Transform:
   m_ObjectHideFlags: 0
@@ -958,14 +957,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.061258283, g: 0.754717, b: 0, a: 1}
+  m_Color: {r: 0.083333254, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: a948714aa70d9814fa9509c5162d5bc0, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1049,8 +1048,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278207235
-  m_fontColor: {r: 0.01372213, g: 0.26415092, b: 0, a: 1}
+    rgba: 4289527728
+  m_fontColor: {r: 0.68910164, g: 1, b: 0.6745283, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

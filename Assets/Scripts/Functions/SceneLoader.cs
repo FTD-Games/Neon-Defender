@@ -15,7 +15,7 @@ public class SceneLoader : MonoBehaviour
     private void Start()
     {
         loadingScreen.SetActive(false);
-        GameControl.control.sceneLoader = this;
+        GameControl.control.SceneLoader = this;
     }
 
     private void SetHint(string theHint) => loadingHint.text = theHint;
@@ -46,7 +46,7 @@ public class SceneLoader : MonoBehaviour
                 _activationNextScene = true;
             if (_activationNextScene)
             {
-                yield return new WaitForSeconds(0.5f); // This line fakes a loading time from 0.5 secs, can be removed on release
+                yield return new WaitForSeconds(1f); // This line fakes a loading time from 1 secs, can be removed on release
                 operation.allowSceneActivation = _activationNextScene;
             }
             yield return null;
