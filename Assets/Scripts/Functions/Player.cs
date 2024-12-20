@@ -15,10 +15,9 @@ public class Player : MonoBehaviour
         SetupCamera();
         SetupControls();
         SetupMovement();
-        
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_controls.IsMoving())
             _movement.Move(_controls.GetMovement());

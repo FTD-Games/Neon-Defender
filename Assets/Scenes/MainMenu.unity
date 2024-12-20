@@ -716,7 +716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developmentState: 0
   profileVersion: A
-  gameVersion: 006
+  gameVersion: 007
 --- !u!4 &714926126
 Transform:
   m_ObjectHideFlags: 0
