@@ -4,15 +4,18 @@ public class Player : MonoBehaviour
 {
     private Controls _controls;
     private Movement _movement;
+    private BaseStats _stats;
 
     // Visual links
     public SpriteRenderer body;
 
     private void Start()
     {
+        SetupBaseStats();
         SetupCamera();
         SetupControls();
         SetupMovement();
+        
     }
 
     private void Update()
@@ -45,8 +48,16 @@ public class Player : MonoBehaviour
     private void SetupMovement()
     {
         _movement = GetComponent<Movement>();
-        _movement.SetupMovement(5f);
+        _movement.SetupMovement(_stats.Speed);
         _movement.onDirectionChanged += MovementDirectionChanged;
+    }
+
+    /// <summary>
+    /// Initializes the basestats for the player.
+    /// </summary>
+    private void SetupBaseStats()
+    {
+        _stats = GetComponent<BaseStats>();
     }
 
     /// <summary>
