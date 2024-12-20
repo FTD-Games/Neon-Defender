@@ -639,7 +639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developmentState: 0
   profileVersion: A
-  gameVersion: 003
+  gameVersion: 004
 --- !u!4 &714926126
 Transform:
   m_ObjectHideFlags: 0
