@@ -20,6 +20,10 @@ public class GameControl : MonoBehaviour
     /// Scene Manager for changing scenes or general scene management.
     /// </summary>
     public SceneLoader SceneLoader {  get; set; }
+    /// <summary>
+    /// Loaded Player Profile
+    /// </summary>
+    public Profile.SaveData profile;
 
     void Awake()
     {
@@ -33,10 +37,33 @@ public class GameControl : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        InitData();
     }
 
     private void Start()
     {
-
+        
     }
+
+    private void InitData()
+    {
+        var fileHandler = new Profile(true);
+
+        if (!fileHandler.ProfileExists()) {
+            var data = fileHandler.CreateNewProfile();
+            fileHandler.SaveProfile(data);
+        }
+
+        control.profile = fileHandler.LoadProfile();
+        control.profile.IsMigrationChecking = true;
+        
+        if (!fileHandler.NeedsMigration(control.profile)) {
+            return;
+        }
+
+        fileHandler.Migrate(control.profile);
+        fileHandler.SaveProfile(control.profile);
+    }
+
 }
