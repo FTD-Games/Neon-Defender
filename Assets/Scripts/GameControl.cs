@@ -17,7 +17,7 @@ public class GameControl : MonoBehaviour
     /// </summary>
     public string gameVersion;
     /// <summary>
-    /// Changes the scene depending on input and displays loading screen
+    /// Scene Manager for changing scenes or general scene management.
     /// </summary>
     public SceneLoader SceneLoader {  get; set; }
 
