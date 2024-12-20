@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class FollowTarget : MonoBehaviour
 {
     public event Action<bool> onDirectionChanged;
 
+    public Transform target;
+    private float _speed = 3f;
     private bool _isMovingRight;
     /// <summary>
     /// Is the input orientated to the right or left?
@@ -19,22 +21,26 @@ public class Movement : MonoBehaviour
             _isMovingRight = value;
         }
     }
-    private float _speed;
     private Rigidbody2D _rb;
-    
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Move(Vector2 move)
+    private void FixedUpdate()
     {
-        var moveMent = new Vector2(Mathf.Clamp(move.x, -1, 1), Mathf.Clamp(move.y, -1, 1));
-        IsMovingRight = moveMent.x >= 0;
-        _rb.MovePosition(_rb.position + _speed * moveMent * Time.fixedDeltaTime);
+        var move = new Vector2(Mathf.Clamp(target.position.x - transform.position.x, -1, 1), Mathf.Clamp(target.position.y - transform.position.y, -1, 1));
+        Move(move);
     }
 
-    public void SetupMovement(float speed)
+    public void Move(Vector2 move)
+    {
+        IsMovingRight = move.x >= 0;
+        _rb.MovePosition(_rb.position + _speed * move * Time.fixedDeltaTime);
+    }
+
+    public void SetupFollowTarget(Transform newTarget, float speed)
     {
         _speed = speed;
         IsMovingRight = true;
