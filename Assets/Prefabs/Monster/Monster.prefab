@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3843782581841775935}
+  - component: {fileID: 1884804008741724615}
+  - component: {fileID: -7073968776537040146}
   - component: {fileID: 5308467519601904791}
   - component: {fileID: 3402287628705445531}
   - component: {fileID: 7909054648898231573}
@@ -35,6 +37,37 @@ Transform:
   - {fileID: 8967097383001054602}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1884804008741724615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487979555296519836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d28c46ebc2e0b46b146b4f63cd0cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7073968776537040146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487979555296519836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6fa8b78b3102ff4595f8c57fab2af6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  armor: 0
+  speed: 4
+  damage: 1
+  experience: 1
+  critChance: 0
+  critDamage: 0
 --- !u!114 &5308467519601904791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,7 +118,7 @@ CircleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d021c0f527f49674eaaada9d7f598633, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

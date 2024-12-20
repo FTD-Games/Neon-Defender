@@ -304,6 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73253829f2ecf54da6d8c738691cf59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startWeapon: {fileID: 8314125205947978521, guid: c1999e7a8ad92904ea6ab0c439710eb3, type: 3}
   body: {fileID: 4834721741754956364}
 --- !u!114 &7261515539094884081
 MonoBehaviour:
@@ -341,13 +342,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6fa8b78b3102ff4595f8c57fab2af6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
-  Armor: 0
-  Speed: 5
-  Damage: 15
-  Experience: 0
-  CritChance: 5
-  CritDamage: 5
+  health: 10
+  armor: 0
+  speed: 5
+  damage: 2
+  experience: 0
+  critChance: 5
+  critDamage: 15
 --- !u!50 &1522770868077911852
 Rigidbody2D:
   serializedVersion: 5
