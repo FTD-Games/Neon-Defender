@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
-    [Header("UI References")] public TextMeshProUGUI versionsText; // Reference to the TextMeshPro text field
+    [Header("UI References")]
+    public TextMeshProUGUI versionsText; // Reference to the TextMeshPro text field
+    public GameObject levelSelectionDisplay;
 
     private void Start()
     {
@@ -15,8 +17,7 @@ public class MainMenu : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        Debug.Log("Start Game");
-        GameControl.control.SceneLoader.LoadScene((int)Enums.E_Levels.LevelOne, $"Loading: {Enums.E_Levels.LevelOne}");
+        levelSelectionDisplay.SetActive(true);
     }
 
     /// <summary>
