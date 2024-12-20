@@ -1,4 +1,3 @@
-using System;
 using TMPro; // Required for TextMeshPro
 using UnityEngine;
 
@@ -8,11 +7,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        System.Action updateVersionsText = () =>
-        {
-            versionsText.text = $"Version: {GameControl.control.profileVersion}{GameControl.control.gameVersion}";
-        };
-        updateVersionsText();
+        UpdateVersionText();
     }
 
     /// <summary>
@@ -21,6 +16,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Start Game");
+        GameControl.control.sceneLoader.LoadScene((int)Enums.E_Levels.LevelOne, $"Loading: {Enums.E_Levels.LevelOne}");
     }
 
     /// <summary>
@@ -35,4 +31,9 @@ public class MainMenu : MonoBehaviour
     /// Stops the application and ends the game.
     /// </summary>
     public void QuitGame() => Application.Quit();
+
+    /// <summary>
+    /// Update the version text in the UI with the current GameControl data.
+    /// </summary>
+    private void UpdateVersionText() => versionsText.text = $"Version: {GameControl.control.profileVersion}{GameControl.control.gameVersion}";
 }
