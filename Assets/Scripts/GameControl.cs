@@ -16,6 +16,10 @@ public class GameControl : MonoBehaviour
     /// Game version of the build 001, 002, ...
     /// </summary>
     public string gameVersion;
+    /// <summary>
+    /// Changes the scene depending on input and displays loading screen
+    /// </summary>
+    public SceneLoader sceneLoader;
 
     void Awake()
     {
