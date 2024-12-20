@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
     {
         System.Action updateVersionsText = () =>
         {
-            versionsText.text = "Version: " + GameControl.control.profileVersion + GameControl.control.gameVersion;
+            versionsText.text = $"Version: {GameControl.control.profileVersion}{GameControl.control.gameVersion}";
         };
         updateVersionsText();
     }
