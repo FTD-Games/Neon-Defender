@@ -23,13 +23,14 @@ public class Movement : MonoBehaviour
 
     public void Move(Vector2 move)
     {
-        IsMovingRight = move.x > 0;
+        IsMovingRight = move.x >= 0;
         transform.position = new Vector2(transform.position.x + (_speed * move.x * Time.deltaTime), transform.position.y + (_speed * move.y * Time.deltaTime));
     }
 
     public void SetupMovement(float speed)
     {
         _speed = speed;
+        IsMovingRight = true;
     }
 
     /// <summary>
