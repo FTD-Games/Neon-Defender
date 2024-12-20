@@ -4,5 +4,5 @@ public class Enums
     /// <summary>
     /// This enum contains all levels. Attention: The enum has to match the Scene NUMBER in build sequence.
     /// </summary>
-    public enum E_Levels { None, LevelOne }
+    public enum E_Levels { None, LevelOne, LevelTwo }
 }
