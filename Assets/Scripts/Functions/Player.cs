@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     private Movement _movement;
     private BaseStats _stats;
     private GameObject _myWeapon;
+    private HealthDisplay _healthDisplay;
 
     // Prefabs
     public GameObject startWeapon;
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
         SetupControls();
         SetupMovement();
         SetupWeapon();
+        SetupHealthDisplay();
     }
 
     private void FixedUpdate()
@@ -68,6 +70,12 @@ public class Player : MonoBehaviour
     {
         _myWeapon = Instantiate(startWeapon, transform);
         _myWeapon.GetComponent<Sword>().SetupSword(1.25f, _stats.Damage, 0.25f);
+    }
+
+    private void SetupHealthDisplay()
+    {
+        _healthDisplay = GetComponentInChildren<HealthDisplay>();
+        _healthDisplay.SetHealth(_stats.MaxHealth, _stats.Health);
     }
 
     /// <summary>

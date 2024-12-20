@@ -34,19 +34,7 @@ public class Monster : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("COLL ENTER");
-        var layer = collision.gameObject.layer;
-        switch (layer)
-        {
-            case 8:
-                ReceiveDamage(collision.gameObject.GetComponent<DmgDealer>().Damage);
-                break;
-            default:
-                break;
-        }
-    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("TRIGGER ENTER");

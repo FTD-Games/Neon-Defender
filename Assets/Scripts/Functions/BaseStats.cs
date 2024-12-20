@@ -33,6 +33,16 @@ public class BaseStats : MonoBehaviour
         }
     }
 
+    private float _maxHealth;
+    /// <summary>
+    /// Current max health that can be manipulated.
+    /// </summary>
+    public float MaxHealth
+    {
+        get { return _maxHealth; }
+        set { _maxHealth = value; }
+    }
+
     private float _armor;
     /// <summary>
     /// Current armor that can be manipulated.
@@ -87,6 +97,7 @@ public class BaseStats : MonoBehaviour
     private void Start()
     {
         Health = health;
+        MaxHealth = health;
         Armor = armor;
         Damage = damage;
         CritChance = critChance;
