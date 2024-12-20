@@ -5,6 +5,11 @@ public class Player : MonoBehaviour
     private Controls _controls;
     private Movement _movement;
     private BaseStats _stats;
+    private GameObject _myWeapon;
+    private HealthDisplay _healthDisplay;
+
+    // Prefabs
+    public GameObject startWeapon;
 
     // Visual links
     public SpriteRenderer body;
@@ -15,6 +20,8 @@ public class Player : MonoBehaviour
         SetupCamera();
         SetupControls();
         SetupMovement();
+        SetupWeapon();
+        SetupHealthDisplay();
     }
 
     private void FixedUpdate()
@@ -59,6 +66,18 @@ public class Player : MonoBehaviour
         _stats = GetComponent<BaseStats>();
     }
 
+    private void SetupWeapon()
+    {
+        _myWeapon = Instantiate(startWeapon, transform);
+        _myWeapon.GetComponent<Sword>().SetupSword(1.25f, _stats.Damage, 0.25f);
+    }
+
+    private void SetupHealthDisplay()
+    {
+        _healthDisplay = GetComponentInChildren<HealthDisplay>();
+        _healthDisplay.SetHealth(_stats.MaxHealth, _stats.Health);
+    }
+
     /// <summary>
     /// Do all the needed disposing / deleting stuff here before change the scene or remove the player.
     /// </summary>
@@ -70,9 +89,5 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Called by the movement as event when the players direction has changed.
     /// </summary>
-    private void MovementDirectionChanged(bool isMovingRight)
-    {
-        Debug.Log("direction changed");
-        body.flipX = !isMovingRight;
-    }
+    private void MovementDirectionChanged(bool isMovingRight) => body.flipX = !isMovingRight;
 }
