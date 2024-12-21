@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     private BaseStats _stats;
     private GameObject _myWeapon;
     private HealthDisplay _healthDisplay;
+    private Hud _hud;
 
     // Prefabs
     public GameObject startWeapon;
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        _hud = GameControl.control.CurrentHUD.GetComponent<Hud>();
         SetupBaseStats();
         SetupCamera();
         SetupControls();
@@ -23,6 +25,12 @@ public class Player : MonoBehaviour
         SetupWeapon();
         SetupHealthDisplay();
         SetupSpawner();
+    }
+
+    private void Update()
+    {
+        if (_controls.PressedEsc())
+            SetPause();
     }
 
     private void FixedUpdate()
@@ -93,6 +101,8 @@ public class Player : MonoBehaviour
     {
         GetComponent<SpawnController>().SetupSpawner(transform);
     }
+
+    private void SetPause() => _hud.SetPause();
 
     /// <summary>
     /// Do all the needed disposing / deleting stuff here before change the scene or remove the player.
