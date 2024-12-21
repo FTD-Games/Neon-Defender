@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class SpawnController : MonoBehaviour
 {
@@ -19,10 +20,6 @@ public class SpawnController : MonoBehaviour
     /// The current time to track the spawn rate. Counts upwards.
     /// </summary>
     private float _currentSpawnRate;
-    /// <summary>
-    /// All monster prefabs that could be spawned.
-    /// </summary>
-    public List<GameObject> monsters;
     private SpawnStateData _currentSpawnState;
     /// <summary>
     /// The set difficulty for this spawner.
@@ -30,9 +27,12 @@ public class SpawnController : MonoBehaviour
     private Enums.E_Difficulty _difficulty;
     private Transform _playersTransform;
     private List<SpawnStateData> _spawnStatesData = new List<SpawnStateData>();
+    private ObjectPooling _pools;
 
     public void SetupSpawner(Transform player)
     {
+        _pools = GameControl.control.GetComponent<ObjectPooling>();
+        _pools.ClearAllPools();
         _playersTransform = player;
         SetupDifficulty();
         _currentSpawnState = _spawnStatesData.FirstOrDefault(s => s.state == Enums.E_SpawnState.Idle);
@@ -169,12 +169,14 @@ public class SpawnController : MonoBehaviour
 
     private void SpawnMonster()
     {
-        var randomMonster = monsters[UnityEngine.Random.Range(0, monsters.Count)];
+        var randomMonster = (Enums.E_Monster)UnityEngine.Random.Range(1, Enum.GetNames(typeof(Enums.E_Monster)).Length);
         var randomPosition = new Vector3(UnityEngine.Random.Range(16, 24), UnityEngine.Random.Range(12, 18));
         randomPosition.x *= UnityEngine.Random.value >= 0.5f ? -1 : 1;
         randomPosition.y *= UnityEngine.Random.value >= 0.5f ? -1 : 1;
-        var newMonster = Instantiate(randomMonster, (_playersTransform.position + randomPosition), Quaternion.identity, null).GetComponent<Monster>();
-        newMonster.SetupMonster(_playersTransform);
+        var newMonster = _pools.GetAvailableObject(Enums.E_RequestableObject.Monster, randomMonster);
+        newMonster.transform.SetPositionAndRotation((_playersTransform.position + randomPosition), Quaternion.identity);
+        newMonster.transform.parent = null;
+        newMonster.GetComponent<Monster>().SetupMonster(_playersTransform, _pools);
     }
 
     /// <summary>

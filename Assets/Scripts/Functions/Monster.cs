@@ -7,13 +7,15 @@ public class Monster : MonoBehaviour
     private BaseStats _stats;
     private FollowTarget _followTarget;
     private Animator _animator;
+    private ObjectPooling _pool;
 
     // Visual links
     public SpriteRenderer body;
     public GameObject expOrb;
 
-    public void SetupMonster(Transform target)
+    public void SetupMonster(Transform target, ObjectPooling pool)
     {
+        _pool = pool;
         SetupBaseStats();
         SetupMovement(target);
     }
@@ -53,8 +55,11 @@ public class Monster : MonoBehaviour
 
     private void SetDead()
     {
-        Instantiate(expOrb, transform.position, Quaternion.identity, null).GetComponent<ExpOrb>().OrbType = (Enums.E_ExpOrbType) UnityEngine.Random.Range(0, Enum.GetNames(typeof(Enums.E_ExpOrbType)).Length);
-        Destroy(gameObject);
+        var newOrb = _pool.GetAvailableObject(Enums.E_RequestableObject.ExpOrb);
+        newOrb.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+        newOrb.transform.parent = null;
+        newOrb.GetComponent<ExpOrb>().OrbType = (Enums.E_ExpOrbType) UnityEngine.Random.Range(0, Enum.GetNames(typeof(Enums.E_ExpOrbType)).Length);
+        _pool.ReAddToAvailablePool(gameObject, Enums.E_RequestableObject.Monster, monster);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

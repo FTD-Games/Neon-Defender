@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -8,6 +9,7 @@ public class Player : MonoBehaviour
     private GameObject _myWeapon;
     private HealthDisplay _healthDisplay;
     private Hud _hud;
+    private ObjectPooling _pools;
 
     // Prefabs
     public GameObject startWeapon;
@@ -17,6 +19,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        _pools = GameControl.control.GetComponent<ObjectPooling>();
         _hud = GameControl.control.CurrentHUD.GetComponent<Hud>();
         SetupBaseStats();
         SetupCamera();
@@ -118,13 +121,17 @@ public class Player : MonoBehaviour
         switch (layer)
         {
             case 9:
-                var expOrb = collision.gameObject.GetComponent<ExpOrb>();
-                if (Vector3.Distance(transform.position, collision.transform.position) >= 1) {
-                    expOrb.SetFollowTarget(transform);
-            } else {
-                    Debug.Log($"GIMME EXP: {expOrb.GetExperience()}");
-                    Destroy(expOrb.gameObject);
+                if (!collision.gameObject.TryGetComponent(out ExpOrb orb))
+                    return;
+
+                if (Vector3.Distance(transform.position, collision.transform.position) >= 1)
+                {
+                    orb.SetFollowTarget(transform);
+                    return;
                 }
+
+                Debug.Log($"GIMME EXP: {orb.GetExperience()}");
+                _pools.ReAddToAvailablePool(orb.gameObject, Enums.E_RequestableObject.ExpOrb);
                 break;
             default:
                 break;

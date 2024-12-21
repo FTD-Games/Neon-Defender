@@ -11,5 +11,6 @@ public class Enums
     /// </summary>
     public enum E_SpawnState { Idle, Monster, Boss }
     public enum E_Difficulty { Easy, Normal, Hard, Insane }
-    public enum E_ExpOrbType { Common, Uncommon, Rare, Epic } 
+    public enum E_ExpOrbType { Common, Uncommon, Rare, Epic }
+    public enum E_RequestableObject { Monster, ExpOrb}
 }
