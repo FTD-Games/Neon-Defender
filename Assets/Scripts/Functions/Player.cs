@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,6 +9,7 @@ public class Player : MonoBehaviour
     private HealthDisplay _healthDisplay;
     private Hud _hud;
     private ObjectPooling _pools;
+    private AudioDataCollection _soundPlayer;
 
     // Prefabs
     public GameObject startWeapon;
@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     {
         _pools = GameControl.control.GetComponent<ObjectPooling>();
         _hud = GameControl.control.CurrentHUD.GetComponent<Hud>();
+        SetupSoundPlayer();
         SetupBaseStats();
         SetupCamera();
         SetupControls();
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
         SetupWeapon();
         SetupHealthDisplay();
         SetupSpawner();
+        SetupLevelDisplays();
     }
 
     private void Update()
@@ -40,6 +42,12 @@ public class Player : MonoBehaviour
     {
         if (_controls.IsMoving())
             _movement.Move(_controls.GetMovement());
+    }
+
+    private void SetupSoundPlayer()
+    {
+        _soundPlayer = GetComponent<AudioDataCollection>();
+        _soundPlayer.InitAudio();
     }
 
     /// <summary>
@@ -77,6 +85,7 @@ public class Player : MonoBehaviour
     {
         _stats = GetComponent<BaseStats>();
         _stats.SetBaseStats();
+        _stats.onLevelUp += LevelUp;
     }
 
     /// <summary>
@@ -105,6 +114,15 @@ public class Player : MonoBehaviour
         GetComponent<SpawnController>().SetupSpawner(transform);
     }
 
+    /// <summary>
+    /// Show the current exp, needed exp and level on the hud.
+    /// </summary>
+    private void SetupLevelDisplays()
+    {
+        _hud.RefreshLevel(_stats.Level);
+        _hud.RefreshExpProgress(_stats.CurrentExperience, _stats.CurrentNeededExperience);
+    }
+
     private void SetPause() => _hud.SetPause();
 
     /// <summary>
@@ -113,6 +131,7 @@ public class Player : MonoBehaviour
     private void DisposePlayer()
     {
         _movement.onDirectionChanged -= MovementDirectionChanged;
+        _stats.onLevelUp -= LevelUp;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -129,13 +148,27 @@ public class Player : MonoBehaviour
                     orb.SetFollowTarget(transform);
                     return;
                 }
-
-                Debug.Log($"GIMME EXP: {orb.GetExperience()}");
+                _soundPlayer.PlayTargetSoundWithRandomPitch(Enums.E_Sound.Collect);
+                _stats.CurrentExperience += orb.GetExperience();
+                _hud.RefreshExpProgress(_stats.CurrentExperience, _stats.CurrentNeededExperience);
                 _pools.ReAddToAvailablePool(orb.gameObject, Enums.E_RequestableObject.ExpOrb);
                 break;
             default:
                 break;
         }
+    }
+
+    /// <summary>
+    /// Called by the base stats when the exp reached the needed exp.
+    /// </summary>
+    private void LevelUp()
+    {
+        _soundPlayer.PlayTargetSoundWithRandomPitch(Enums.E_Sound.LevelUp);
+        _stats.Level++;
+        _stats.CurrentExperience = 0;
+        _stats.CurrentNeededExperience = Mathf.RoundToInt(_stats.CurrentNeededExperience * 1.5f - (_stats.Level / 10));
+        _hud.RefreshLevel(_stats.Level);
+        _hud.RefreshExpProgress(_stats.CurrentExperience, _stats.CurrentNeededExperience);
     }
 
     /// <summary>

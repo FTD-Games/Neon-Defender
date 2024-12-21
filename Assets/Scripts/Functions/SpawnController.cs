@@ -35,7 +35,7 @@ public class SpawnController : MonoBehaviour
         _pools.ClearAllPools();
         _playersTransform = player;
         SetupDifficulty();
-        _currentSpawnState = _spawnStatesData.FirstOrDefault(s => s.state == Enums.E_SpawnState.Idle);
+        _currentSpawnState = _spawnStatesData.FirstOrDefault(s => s.state == Enums.E_SpawnState.Monster);
     }
 
     private void SetupDifficulty()

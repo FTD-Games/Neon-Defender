@@ -6,7 +6,7 @@ public class ExpOrb : MonoBehaviour
     public SpriteRenderer Sprite;
     private FollowTargetTransform _followTarget;
     private Enums.E_ExpOrbType _orbType;
-    private float _experience;
+    private int _experience;
 
     private void Start()
     {
@@ -26,7 +26,7 @@ public class ExpOrb : MonoBehaviour
         }
     }
 
-    public float GetExperience() => _experience;
+    public int GetExperience() => _experience;
 
     public void SetFollowTarget(Transform target) => _followTarget.SetupFollowTarget(target, 5);
 }

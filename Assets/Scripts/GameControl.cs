@@ -94,8 +94,7 @@ public class GameControl : MonoBehaviour
     {
         public Enums.E_ExpOrbType Type;
         public Color Color;
-        public float Experience;
+        public int Experience;
         public float Size;
     }
-
 }

@@ -14,7 +14,8 @@ public class Hud : MonoBehaviour
     }
 
     private bool _isPaused;
-    public LevelDisplay levelDisplay;
+    [SerializeField]
+    private LevelDisplay levelDisplay;
     public GameObject fpsDisplay;
     public Settings settingsMenu;
 
@@ -22,8 +23,6 @@ public class Hud : MonoBehaviour
     {
         settingsMenu.LoadSettings();
         fpsDisplay.SetActive(settingsMenu.toggleFpsDisplay.isOn);
-        levelDisplay.SetExpProgress(100, 75);
-        levelDisplay.SetLevel(44);
     }
 
     public void SetPause()
@@ -34,4 +33,14 @@ public class Hud : MonoBehaviour
             return;
         settingsMenu.ShowPause(true);
     }
+
+    /// <summary>
+    /// Refresh the displayed exp.
+    /// </summary>
+    public void RefreshExpProgress(float currentExp, float levelUpExp) => levelDisplay.SetExpProgress(currentExp, levelUpExp);
+
+    /// <summary>
+    /// Refresh the displayed level.
+    /// </summary>
+    public void RefreshLevel(int currentLvl) => levelDisplay.SetLevel(currentLvl);
 }
