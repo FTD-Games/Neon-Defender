@@ -5,8 +5,8 @@ public class FollowTarget : MonoBehaviour
 {
     public event Action<bool> onDirectionChanged;
 
-    public Transform target;
-    private float _speed = 3f;
+    private Transform _target;
+    private float _speed;
     private bool _isMovingRight;
     /// <summary>
     /// Is the input orientated to the right or left?
@@ -30,19 +30,22 @@ public class FollowTarget : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var move = new Vector2(Mathf.Clamp(target.position.x - transform.position.x, -1, 1), Mathf.Clamp(target.position.y - transform.position.y, -1, 1));
+        var move = new Vector2(Mathf.Clamp(_target.position.x - transform.position.x, -1, 1), Mathf.Clamp(_target.position.y - transform.position.y, -1, 1));
         Move(move);
     }
 
     public void Move(Vector2 move)
     {
         IsMovingRight = move.x >= 0;
+        Debug.Log($"MONSTER: speed: {_speed} movement: {move}");
         _rb.MovePosition(_rb.position + _speed * move * Time.fixedDeltaTime);
     }
 
     public void SetupFollowTarget(Transform newTarget, float speed)
     {
+        _target = newTarget;
         _speed = speed;
+        Debug.Log($"SPEED SET TO: {_speed}");
         IsMovingRight = true;
     }
 
