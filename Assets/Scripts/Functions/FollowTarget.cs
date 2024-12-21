@@ -34,7 +34,7 @@ public class FollowTarget : MonoBehaviour
         Move(move);
     }
 
-    public void Move(Vector2 move)
+    private void Move(Vector2 move)
     {
         IsMovingRight = move.x >= 0;
         _rb.MovePosition(_rb.position + _speed * move * Time.fixedDeltaTime);

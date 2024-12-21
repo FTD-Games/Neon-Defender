@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,6 +36,10 @@ public class GameControl : MonoBehaviour
     /// Current in game HUD.
     /// </summary>
     public GameObject CurrentHUD { get; set; } // Property so the Unity inspector is not showing it.
+    /// <summary>
+    /// List of ExpOrb data. 
+    /// </summary>
+    public List<OrbData> OrbDataList = new List<OrbData>();
 
     #region PREFABS THAT CAN BE INSTANTIATED
     public GameObject hudPrefab;
@@ -81,6 +87,15 @@ public class GameControl : MonoBehaviour
 
         fileHandler.Migrate(control.profile);
         fileHandler.SaveProfile(control.profile);
+    }
+
+    [Serializable]
+    public class OrbData
+    {
+        public Enums.E_ExpOrbType Type;
+        public Color Color;
+        public float Experience;
+        public float Size;
     }
 
 }
