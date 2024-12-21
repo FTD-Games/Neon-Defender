@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class BaseStats : MonoBehaviour
 {
+    public event Action onLevelUp;
+
     #region UNITY INSPECTOR VALUES (START VALUES)
     [SerializeField]
     private float health;
@@ -92,6 +95,41 @@ public class BaseStats : MonoBehaviour
         get { return _critDamage; }
         set { _critDamage = value; }
     }
+
+    private int _currExperience;
+    /// <summary>
+    /// Current experience of the player that can be manipulated.
+    /// </summary>
+    public int CurrentExperience
+    {
+        get { return _currExperience; }
+        set
+        {
+            _currExperience = value;
+            if (value >= CurrentNeededExperience)
+                onLevelUp?.Invoke();
+        }
+    }
+
+    private int _currNeededExperience;
+    /// <summary>
+    /// Current needed experience of the player for level up.
+    /// </summary>
+    public int CurrentNeededExperience
+    {
+        get { return _currNeededExperience; }
+        set { _currNeededExperience = value; }
+    }
+
+    private int _level;
+    /// <summary>
+    /// Current level of the player.
+    /// </summary>
+    public int Level
+    {
+        get { return _level; }
+        set { _level = value; }
+    }
     #endregion REAL TIME VALUES IN-GAME
 
     public void SetBaseStats()
@@ -103,5 +141,8 @@ public class BaseStats : MonoBehaviour
         CritChance = critChance;
         CritDamage = critDamage;
         Speed = speed;
+        Level = 1;
+        CurrentExperience = 0;
+        CurrentNeededExperience = 10;
     }
 }

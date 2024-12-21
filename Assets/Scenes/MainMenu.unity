@@ -890,19 +890,19 @@ MonoBehaviour:
   - Type: 0
     Color: {r: 0.14159843, g: 0.8113208, b: 0.702741, a: 1}
     Experience: 1
-    Size: 0.9
+    Size: 0.8
   - Type: 1
     Color: {r: 0.14117643, g: 0.8117647, b: 0.25294104, a: 1}
     Experience: 2
-    Size: 1
+    Size: 0.9
   - Type: 2
     Color: {r: 0.8117647, g: 0.14117643, b: 0.14117643, a: 1}
     Experience: 3
-    Size: 1.1
+    Size: 1
   - Type: 3
     Color: {r: 0.43176472, g: 0.14117643, b: 0.8117647, a: 1}
     Experience: 4
-    Size: 1.2
+    Size: 1.1
   hudPrefab: {fileID: 6306064849469277136, guid: 1ad8b9f8a3ee81543938161dd13d5b0a, type: 3}
 --- !u!4 &714926126
 Transform:

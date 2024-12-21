@@ -8,6 +8,7 @@ public class Monster : MonoBehaviour
     private FollowTarget _followTarget;
     private Animator _animator;
     private ObjectPooling _pool;
+    private AudioDataCollection _soundPlayer;
 
     // Visual links
     public SpriteRenderer body;
@@ -18,6 +19,7 @@ public class Monster : MonoBehaviour
         _pool = pool;
         SetupBaseStats();
         SetupMovement(target);
+        SetupSoundPlayer();
     }
 
     /// <summary>
@@ -37,6 +39,12 @@ public class Monster : MonoBehaviour
         _followTarget.onDirectionChanged += MovementDirectionChanged;
     }
 
+    private void SetupSoundPlayer()
+    {
+        _soundPlayer = GetComponent<AudioDataCollection>();
+        _soundPlayer.InitAudio();
+    }
+
     private void ReceiveDamage(float value)
     {
         _stats.Health -= value;
@@ -44,7 +52,7 @@ public class Monster : MonoBehaviour
             SetDead();
             return;
         }
-        
+        _soundPlayer.PlayTargetSoundWithRandomPitch(Enums.E_Sound.GetHit);
         _animator.Play("MonsterHurt");
     }
 
