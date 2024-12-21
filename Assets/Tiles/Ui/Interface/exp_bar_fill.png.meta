@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b4982b5fc7a3bf641a90ca8612c30da4
+guid: e3e5da8cd333d3645ad47d1e4c65d146
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7754504375325819372
-    second: Progressbar_BG128_0
+      213: 7778611309510095550
+    second: exp_bar_fill_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,14 +46,14 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
-  spriteBorder: {x: 15, y: 15, z: 15, w: 15}
-  spriteGenerateFallbackPhysicsShape: 0
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -72,12 +72,12 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
-    compressionQuality: 90
-    crunchedCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     ignorePlatformSupport: 0
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Progressbar_BG128_0
+      name: exp_bar_fill_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 2048
+        height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 41efd731b57726490800000000000000
-      internalID: -7754504375325819372
+      spriteID: eb27f2de5cd23fb60800000000000000
+      internalID: 7778611309510095550
       vertices: []
       indices: 
       edges: []
@@ -138,8 +138,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: 
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Progressbar_BG128_0: -7754504375325819372
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
