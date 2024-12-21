@@ -15,10 +15,7 @@ public class FollowTargetTransform : MonoBehaviour
         Move(move);
     }
 
-    private void Move(Vector3 move)
-    {
-        transform.position = transform.position + (_speed * move) * Time.deltaTime;
-    }
+    private void Move(Vector3 move) => transform.position = transform.position + (_speed * move) * Time.deltaTime;
 
     public void SetupFollowTarget(Transform newTarget, float speed)
     {
