@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameControl : MonoBehaviour
 {
@@ -29,6 +30,14 @@ public class GameControl : MonoBehaviour
     /// Set on level selection.
     /// </summary>
     public Enums.E_Difficulty selectedDifficulty;
+    /// <summary>
+    /// Current in game HUD.
+    /// </summary>
+    public GameObject CurrentHUD { get; set; } // Property so the Unity inspector is not showing it.
+
+    #region PREFABS THAT CAN BE INSTANTIATED
+    public GameObject hudPrefab;
+    #endregion PREFABS THAT CAN BE INSTANTIATED
 
     void Awake()
     {
@@ -46,9 +55,12 @@ public class GameControl : MonoBehaviour
         InitData();
     }
 
-    private void Start()
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode) // init the gameobjects
     {
-        
+        if (scene.buildIndex == 0) // Currently return on main menu
+            return;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        CurrentHUD = Instantiate(hudPrefab, null);
     }
 
     private void InitData()
