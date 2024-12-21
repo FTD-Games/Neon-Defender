@@ -821,6 +821,7 @@ MonoBehaviour:
   profileVersion: A
   gameVersion: 009
   selectedDifficulty: 1
+  hudPrefab: {fileID: 6306064849469277136, guid: 1ad8b9f8a3ee81543938161dd13d5b0a, type: 3}
 --- !u!4 &714926126
 Transform:
   m_ObjectHideFlags: 0
