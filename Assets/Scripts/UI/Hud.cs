@@ -14,6 +14,7 @@ public class Hud : MonoBehaviour
     }
 
     private bool _isPaused;
+    public LevelDisplay levelDisplay;
     public GameObject fpsDisplay;
     public Settings settingsMenu;
 
@@ -21,6 +22,8 @@ public class Hud : MonoBehaviour
     {
         settingsMenu.LoadSettings();
         fpsDisplay.SetActive(settingsMenu.toggleFpsDisplay.isOn);
+        levelDisplay.SetExpProgress(100, 75);
+        levelDisplay.SetLevel(44);
     }
 
     public void SetPause()
