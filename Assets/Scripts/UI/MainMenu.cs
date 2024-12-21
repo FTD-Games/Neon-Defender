@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     public TextMeshProUGUI versionsText; // Reference to the TextMeshPro text field
     public GameObject levelSelectionDisplay;
     public GameObject settingsMenu;
+    public GameObject upgradeMenu;
 
     private void Start()
     {
@@ -36,6 +37,15 @@ public class MainMenu : MonoBehaviour
     }
 
     /// <summary>
+    /// Open the upgrade menu (or popup).
+    /// </summary>
+    public void OpenUpgrades()
+    {
+        CloseAll();
+        upgradeMenu.SetActive(true);
+    }
+
+    /// <summary>
     /// Stops the application and ends the game.
     /// </summary>
     public void QuitGame() => Application.Quit();
@@ -44,6 +54,7 @@ public class MainMenu : MonoBehaviour
     {
         levelSelectionDisplay.SetActive(false);
         settingsMenu.SetActive(false);
+        upgradeMenu.SetActive(false);
     }
 
     /// <summary>
