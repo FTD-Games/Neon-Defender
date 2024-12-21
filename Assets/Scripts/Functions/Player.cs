@@ -102,6 +102,25 @@ public class Player : MonoBehaviour
         _movement.onDirectionChanged -= MovementDirectionChanged;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        var layer = collision.gameObject.layer;
+        switch (layer)
+        {
+            case 9:
+                var expOrb = collision.gameObject.GetComponent<ExpOrb>();
+                if (Vector3.Distance(transform.position, collision.transform.position) >= 1) {
+                    expOrb.SetFollowTarget(transform);
+            } else {
+                    Debug.Log($"GIMME EXP: {expOrb.GetExperience()}");
+                    Destroy(expOrb.gameObject);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     /// <summary>
     /// Called by the movement as event when the players direction has changed.
     /// </summary>

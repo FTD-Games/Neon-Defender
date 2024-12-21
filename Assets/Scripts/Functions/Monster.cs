@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Monster : MonoBehaviour
@@ -9,6 +10,7 @@ public class Monster : MonoBehaviour
 
     // Visual links
     public SpriteRenderer body;
+    public GameObject expOrb;
 
     public void SetupMonster(Transform target)
     {
@@ -51,6 +53,7 @@ public class Monster : MonoBehaviour
 
     private void SetDead()
     {
+        Instantiate(expOrb, transform.position, Quaternion.identity, null).GetComponent<ExpOrb>().OrbType = (Enums.E_ExpOrbType) UnityEngine.Random.Range(0, Enum.GetNames(typeof(Enums.E_ExpOrbType)).Length);
         Destroy(gameObject);
     }
 
