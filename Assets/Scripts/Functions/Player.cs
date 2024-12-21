@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
         SetupMovement();
         SetupWeapon();
         SetupHealthDisplay();
+        SetupSpawner();
     }
 
     private void FixedUpdate()
@@ -64,18 +65,33 @@ public class Player : MonoBehaviour
     private void SetupBaseStats()
     {
         _stats = GetComponent<BaseStats>();
+        _stats.SetBaseStats();
     }
 
+    /// <summary>
+    /// Initializes the start weapon for the player.
+    /// </summary>
     private void SetupWeapon()
     {
         _myWeapon = Instantiate(startWeapon, transform);
-        _myWeapon.GetComponent<Sword>().SetupSword(1.25f, _stats.Damage, 0.25f);
+        _myWeapon.GetComponent<Sword>().SetupSword(1.25f, _stats.Damage, 100f);
     }
 
+    /// <summary>
+    /// Initializes the healh display for the player
+    /// </summary>
     private void SetupHealthDisplay()
     {
         _healthDisplay = GetComponentInChildren<HealthDisplay>();
         _healthDisplay.SetHealth(_stats.MaxHealth, _stats.Health);
+    }
+
+    /// <summary>
+    /// Initializes the spawner that brings in the MONSTERS & BOSSES
+    /// </summary>
+    private void SetupSpawner()
+    {
+        GetComponent<SpawnController>().SetupSpawner(transform);
     }
 
     /// <summary>

@@ -19,11 +19,16 @@ public class GameControl : MonoBehaviour
     /// <summary>
     /// Scene Manager for changing scenes or general scene management.
     /// </summary>
-    public SceneLoader SceneLoader {  get; set; }
+    public SceneLoader SceneLoader {  get; set; } // Property so the Unity inspector is not showing it.
     /// <summary>
     /// Loaded Player Profile
     /// </summary>
     public Profile.SaveData profile;
+    /// <summary>
+    /// Selected difficulty is used on start (or in runtime) for the difficulty.
+    /// Set on level selection.
+    /// </summary>
+    public Enums.E_Difficulty selectedDifficulty;
 
     void Awake()
     {

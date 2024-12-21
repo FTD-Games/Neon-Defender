@@ -125,7 +125,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 9
   m_TargetDisplay: 0
 --- !u!114 &3723099649610171830
 MonoBehaviour:
@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 7261515539094884081}
   - component: {fileID: 4932193043098220210}
   - component: {fileID: 6091069038038740251}
+  - component: {fileID: 5406304040781634543}
   - component: {fileID: 1522770868077911852}
   - component: {fileID: 1593588943330244407}
   m_Layer: 6
@@ -344,11 +345,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   armor: 0
-  speed: 5
+  speed: 2.5
   damage: 2
   experience: 0
   critChance: 5
   critDamage: 15
+--- !u!114 &5406304040781634543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8799748892663130338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 392dd084145da394b852097dd1993444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsters:
+  - {fileID: 2487979555296519836, guid: b86a6f31b21b71e4b9c0feca2a41112a, type: 3}
 --- !u!50 &1522770868077911852
 Rigidbody2D:
   serializedVersion: 5

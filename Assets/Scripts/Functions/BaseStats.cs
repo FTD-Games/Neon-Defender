@@ -94,7 +94,7 @@ public class BaseStats : MonoBehaviour
     }
     #endregion REAL TIME VALUES IN-GAME
 
-    private void Start()
+    public void SetBaseStats()
     {
         Health = health;
         MaxHealth = health;
