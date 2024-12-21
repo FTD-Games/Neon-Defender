@@ -37,7 +37,6 @@ public class FollowTarget : MonoBehaviour
     public void Move(Vector2 move)
     {
         IsMovingRight = move.x >= 0;
-        Debug.Log($"MONSTER: speed: {_speed} movement: {move}");
         _rb.MovePosition(_rb.position + _speed * move * Time.fixedDeltaTime);
     }
 
@@ -45,7 +44,6 @@ public class FollowTarget : MonoBehaviour
     {
         _target = newTarget;
         _speed = speed;
-        Debug.Log($"SPEED SET TO: {_speed}");
         IsMovingRight = true;
     }
 

@@ -4,8 +4,8 @@ public class CameraController : MonoBehaviour
 {
     private GameObject _followTarget;
     private bool _isFollowing;
-    public float moveSpeed;
-    public float rotationSpeed;
+    private float _moveSpeed = 25f;
+    private float _rotationSpeed = 25f;
     private Vector3 _velocity = Vector3.zero;
 
     private void FixedUpdate()
@@ -16,10 +16,10 @@ public class CameraController : MonoBehaviour
         Quaternion camRot = _followTarget.transform.rotation;
 
         // set camera to position
-        var targetPos = Vector3.SmoothDamp(transform.position, camPos, ref _velocity, moveSpeed * Time.deltaTime);
+        var targetPos = Vector3.SmoothDamp(transform.position, camPos, ref _velocity, _moveSpeed * Time.deltaTime);
         targetPos.z = transform.position.z;
         // set cameras rotation
-        var rotation = Quaternion.Slerp(transform.rotation, camRot, rotationSpeed * Time.deltaTime);
+        var rotation = Quaternion.Slerp(transform.rotation, camRot, _rotationSpeed * Time.deltaTime);
         // set values
         transform.SetPositionAndRotation(targetPos, rotation);
     }
