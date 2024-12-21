@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class SpawnController : MonoBehaviour
@@ -169,8 +170,10 @@ public class SpawnController : MonoBehaviour
     private void SpawnMonster()
     {
         var randomMonster = monsters[UnityEngine.Random.Range(0, monsters.Count)];
-        var newMonster = Instantiate(randomMonster, null).GetComponent<Monster>();
-        newMonster.transform.SetPositionAndRotation(new Vector3(1f, 1f, 1f), Quaternion.identity);
+        var randomPosition = new Vector3(UnityEngine.Random.Range(16, 24), UnityEngine.Random.Range(12, 18));
+        randomPosition.x *= UnityEngine.Random.value >= 0.5f ? -1 : 1;
+        randomPosition.y *= UnityEngine.Random.value >= 0.5f ? -1 : 1;
+        var newMonster = Instantiate(randomMonster, (_playersTransform.position + randomPosition), Quaternion.identity, null).GetComponent<Monster>();
         newMonster.SetupMonster(_playersTransform);
     }
 

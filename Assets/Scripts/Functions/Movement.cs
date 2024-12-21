@@ -31,7 +31,6 @@ public class Movement : MonoBehaviour
     {
         var moveMent = new Vector2(Mathf.Clamp(move.x, -1, 1), Mathf.Clamp(move.y, -1, 1));
         IsMovingRight = moveMent.x >= 0;
-        Debug.Log($"PLAYER: speed: {_speed} movement: {moveMent}");
         _rb.MovePosition(_rb.position + _speed * moveMent * Time.fixedDeltaTime);
     }
 

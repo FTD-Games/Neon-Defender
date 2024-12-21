@@ -5,6 +5,7 @@ public class Monster : MonoBehaviour
     public Enums.E_Monster monster;
     private BaseStats _stats;
     private FollowTarget _followTarget;
+    private Animator _animator;
 
     // Visual links
     public SpriteRenderer body;
@@ -20,6 +21,7 @@ public class Monster : MonoBehaviour
     /// </summary>
     private void SetupBaseStats()
     {
+        _animator = GetComponent<Animator>();
         _stats = GetComponent<BaseStats>();
         _stats.SetBaseStats();
     }
@@ -34,9 +36,12 @@ public class Monster : MonoBehaviour
     private void ReceiveDamage(float value)
     {
         _stats.Health -= value;
-        if (_stats.Health <= 0)
+        if (_stats.Health <= 0) {
             SetDead();
-        Debug.Log($"RECEIVE DMG: {value} my health now: {_stats.Health}");
+            return;
+        }
+        
+        _animator.Play("MonsterHurt");
     }
 
     private void ReceiveHealth(float value)
@@ -51,7 +56,6 @@ public class Monster : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("TRIGGER ENTER");
         var layer = collision.gameObject.layer;
         switch (layer)
         {

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5308467519601904791}
   - component: {fileID: 3402287628705445531}
   - component: {fileID: 7909054648898231573}
+  - component: {fileID: 6929717449977108501}
   m_Layer: 7
   m_Name: Verox
   m_TagString: Untagged
@@ -145,6 +146,28 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.4
+--- !u!95 &6929717449977108501
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487979555296519836}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 62d4550a8e98f164087efc1baf2dbf9f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3777830590413899985
 GameObject:
   m_ObjectHideFlags: 0
