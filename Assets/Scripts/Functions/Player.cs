@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     {
         _pools = GameControl.control.GetComponent<ObjectPooling>();
         _hud = GameControl.control.CurrentHUD.GetComponent<Hud>();
+        _hud.SetupRewardDisplay(RewardTaken);
         SetupSoundPlayer();
         SetupBaseStats();
         SetupCamera();
@@ -196,10 +197,20 @@ public class Player : MonoBehaviour
         _stats.CurrentNeededExperience = Mathf.RoundToInt(_stats.CurrentNeededExperience * 1.5f - (_stats.Level / 10));
         _hud.RefreshLevel(_stats.Level);
         _hud.RefreshExpProgress(_stats.CurrentExperience, _stats.CurrentNeededExperience);
+        _hud.SetupLevelUp(_stats.Level);
     }
 
     /// <summary>
     /// Called by the movement as event when the players direction has changed.
     /// </summary>
     private void MovementDirectionChanged(bool isMovingRight) => body.flipX = !isMovingRight;
+
+    /// <summary>
+    /// Called by the reward controller as event after the player took a reward.
+    /// </summary>
+    private void RewardTaken(int rewardNr)
+    {
+        Debug.Log($"TOOK REWARD: {rewardNr}");
+        _hud.CloseLevelUp();
+    }
 }

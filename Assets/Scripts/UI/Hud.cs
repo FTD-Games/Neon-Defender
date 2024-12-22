@@ -24,6 +24,11 @@ public class Hud : MonoBehaviour
     public GameObject fpsDisplay;
     public GameObject statsDisplay;
     private StatsDisplay _statsDisplay;
+    /// <summary>
+    /// Controller used when player get level up.
+    /// </summary>
+    [SerializeField]
+    private RewardController _rewardController;
     public Settings settingsMenu;
     [SerializeField]
     private Sprite monsterIcon;
@@ -44,6 +49,11 @@ public class Hud : MonoBehaviour
         gameTime.StartStopGameTime(true);
     }
 
+    public void SetupRewardDisplay(Action<int> playerCallback)
+    {
+        _rewardController.SetupRewardController(playerCallback);
+    }
+
     public void SetPause()
     {
         GameIsPaused = !GameIsPaused;
@@ -51,6 +61,24 @@ public class Hud : MonoBehaviour
         if (!GameIsPaused)
             return;
         settingsMenu.ShowPause(true);
+    }
+
+    /// <summary>
+    /// Pauses the game and creates a level up display.
+    /// </summary>
+    public void SetupLevelUp(int newLvl)
+    {
+        GameIsPaused = true;
+        _rewardController.SetLevelUp(newLvl);
+    }
+
+    /// <summary>
+    /// Starts the game again and closes the level up display.
+    /// </summary>
+    public void CloseLevelUp()
+    {
+        _rewardController.Close();
+        GameIsPaused = false;
     }
 
     /// <summary>

@@ -15,4 +15,6 @@ public class Enums
     public enum E_RequestableObject { Monster, ExpOrb }
     public enum E_Player { None, Ninja }
     public enum E_Sound { GetHit, Collect, LevelUp }
+    public enum E_Ability { Sword }
+    public enum E_Reward { SwordAmount }
 }
