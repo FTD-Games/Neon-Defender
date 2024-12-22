@@ -4,6 +4,8 @@ using UnityEngine;
 public class BaseStats : MonoBehaviour
 {
     public event Action onLevelUp;
+    private Hud _hud;
+    private bool _displayedOnHud;
 
     #region UNITY INSPECTOR VALUES (START VALUES)
     [SerializeField]
@@ -43,7 +45,13 @@ public class BaseStats : MonoBehaviour
     public float MaxHealth
     {
         get { return _maxHealth; }
-        set { _maxHealth = value; }
+        set
+        {
+            _maxHealth = value;
+            if (!_displayedOnHud)
+                return;
+            _hud.RefreshHealthStat(value);
+        }
     }
 
     private float _armor;
@@ -53,7 +61,13 @@ public class BaseStats : MonoBehaviour
     public float Armor
     {
         get { return _armor; }
-        set { _armor = value; }
+        set
+        {
+            _armor = value;
+            if (!_displayedOnHud)
+                return;
+            _hud.RefreshArmorStat(value);
+        }
     }
 
     private float _speed;
@@ -63,7 +77,13 @@ public class BaseStats : MonoBehaviour
     public float Speed
     {
         get { return _speed; }
-        set { _speed = value; }
+        set
+        {
+            _speed = value;
+            if (!_displayedOnHud)
+                return;
+            _hud.RefreshSpeedStat(value);
+        }
     }
 
     private float _damage;
@@ -73,7 +93,13 @@ public class BaseStats : MonoBehaviour
     public float Damage
     {
         get { return _damage; }
-        set { _damage = value; }
+        set
+        {
+            _damage = value;
+            if (!_displayedOnHud)
+                return;
+            _hud.RefreshDamageStat(value);
+        }
     }
 
     private float _critChance;
@@ -83,7 +109,13 @@ public class BaseStats : MonoBehaviour
     public float CritChance
     {
         get { return _critChance; }
-        set { _critChance = value; }
+        set
+        {
+            _critChance = value;
+            if (!_displayedOnHud)
+                return;
+            _hud.RefreshCritChanceStat(value);
+        }
     }
 
     private float _critDamage;
@@ -93,7 +125,13 @@ public class BaseStats : MonoBehaviour
     public float CritDamage
     {
         get { return _critDamage; }
-        set { _critDamage = value; }
+        set
+        {
+            _critDamage = value;
+            if (!_displayedOnHud)
+                return;
+            _hud.RefreshCritDamageStat(value);
+        }
     }
 
     private int _currExperience;
@@ -128,10 +166,28 @@ public class BaseStats : MonoBehaviour
     public int Level
     {
         get { return _level; }
-        set { _level = value; }
+        set
+        {
+            _level = value;
+            AllTimeExp += CurrentExperience;
+        }
+    }
+
+    private int _allTimeExp;
+    /// <summary>
+    /// Current all time experience of the player and current run.
+    /// </summary>
+    public int AllTimeExp
+    {
+        get { return _allTimeExp; }
+        set { _allTimeExp = value; }
     }
     #endregion REAL TIME VALUES IN-GAME
-
+    public void AssignHud(Hud hud)
+    {
+        _hud = hud;
+        _displayedOnHud = true;
+    }
     public void SetBaseStats()
     {
         Health = health;
@@ -144,5 +200,6 @@ public class BaseStats : MonoBehaviour
         Level = 1;
         CurrentExperience = 0;
         CurrentNeededExperience = 10;
+        AllTimeExp = 0;
     }
 }

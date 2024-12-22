@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using System.Collections.Generic;
-using UnityEngine.Experimental.Rendering;
 
 public class Settings : MonoBehaviour
 {
@@ -10,6 +9,7 @@ public class Settings : MonoBehaviour
     public Slider sliderMus;
     public Slider sliderSounds;
     public Toggle toggleFpsDisplay;
+    public Toggle toggleStatsDisplay;
     public AudioMixer audioMixer;
     public List<GameObject> inGameUiElements;
 
@@ -54,6 +54,16 @@ public class Settings : MonoBehaviour
         else
         {
             toggleFpsDisplay.isOn = PlayerPrefs.GetInt("FPS_display") == 1;
+        }
+        // Set or get displaying stats
+        if (!PlayerPrefs.HasKey("STATS_display"))
+        {
+            PlayerPrefs.SetInt("STATS_display", 1);
+            toggleStatsDisplay.isOn = true;
+        }
+        else
+        {
+            toggleStatsDisplay.isOn = PlayerPrefs.GetInt("STATS_display") == 1;
         }
     }
 
@@ -119,6 +129,14 @@ public class Settings : MonoBehaviour
         // set the hud display
         if (GameControl.control.CurrentHUD != null && GameControl.control.CurrentHUD.TryGetComponent(out Hud theHud))
             theHud.fpsDisplay.SetActive(isOn);
+    }
+
+    public void SetSTATSDisplay(bool isOn)
+    {
+        PlayerPrefs.SetInt("STATS_display", isOn ? 1 : 0);
+        // set the hud display
+        if (GameControl.control.CurrentHUD != null && GameControl.control.CurrentHUD.TryGetComponent(out Hud theHud))
+            theHud.statsDisplay.SetActive(isOn);
     }
 
     public void LeaveGame()

@@ -22,6 +22,8 @@ public class Hud : MonoBehaviour
     [SerializeField]
     private WaveTime waveTime;
     public GameObject fpsDisplay;
+    public GameObject statsDisplay;
+    private StatsDisplay _statsDisplay;
     public Settings settingsMenu;
     [SerializeField]
     private Sprite monsterIcon;
@@ -29,6 +31,11 @@ public class Hud : MonoBehaviour
     private Sprite bossIcon;
     [SerializeField]
     private Sprite idleIcon;
+
+    private void Awake()
+    {
+        _statsDisplay = statsDisplay.GetComponent<StatsDisplay>();
+    }
 
     private void Start()
     {
@@ -79,5 +86,13 @@ public class Hud : MonoBehaviour
     /// <summary>
     /// Refreshs the displayed time on the wave time display on hud.
     /// </summary>
-     public void RefreshWaveTime(int duration) => waveTime.RefreshTime(new TimeSpan(0, 0, duration));
+    public void RefreshWaveTime(int duration) => waveTime.RefreshTime(new TimeSpan(0, 0, duration));
+
+    public void RefreshHealthStat(float value) => _statsDisplay.RefreshHealthStat(value);
+    public void RefreshArmorStat(float value) => _statsDisplay.RefreshArmorStat(value);
+    public void RefreshSpeedStat(float value) => _statsDisplay.RefreshSpeedStat(value);
+    public void RefreshDamageStat(float value) => _statsDisplay.RefreshDamageStat(value);
+    public void RefreshExperienceStat(float value) => _statsDisplay.RefreshExperienceStat(value);
+    public void RefreshCritChanceStat(float value) => _statsDisplay.RefreshCritChanceStat(value);
+    public void RefreshCritDamageStat(float value) => _statsDisplay.RefreshCritDamageStat(value);
 }

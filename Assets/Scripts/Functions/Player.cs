@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
     private void SetupBaseStats()
     {
         _stats = GetComponent<BaseStats>();
+        _stats.AssignHud(_hud);
         _stats.SetBaseStats();
         _stats.onLevelUp += LevelUp;
     }
