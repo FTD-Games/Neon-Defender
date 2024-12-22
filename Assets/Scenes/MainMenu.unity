@@ -884,7 +884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developmentState: 0
   profileVersion: A
-  gameVersion: 010
+  gameVersion: 011
   selectedDifficulty: 1
   OrbDataList:
   - Type: 0

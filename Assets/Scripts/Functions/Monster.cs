@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    private bool _isSetup;
+
     public Enums.E_Monster monster;
     private BaseStats _stats;
     private FollowTarget _followTarget;
     private Animator _animator;
     private ObjectPooling _pool;
-    private AudioDataCollection _soundPlayer;
+    private AudioDataCollection _sounds;
 
     // Visual links
     public SpriteRenderer body;
@@ -16,10 +18,25 @@ public class Monster : MonoBehaviour
 
     public void SetupMonster(Transform target, ObjectPooling pool)
     {
+        if (_isSetup)
+        {
+            ResetMonster();
+            return;
+        }
         _pool = pool;
         SetupBaseStats();
         SetupMovement(target);
         SetupSoundPlayer();
+        SetupAttacks();
+        _isSetup = true;
+    }
+
+    /// <summary>
+    /// Reset is used if the monster is already initialized and taken from pooling. (performance)
+    /// </summary>
+    private void ResetMonster()
+    {
+        _stats.SetBaseStats();
     }
 
     /// <summary>
@@ -41,8 +58,21 @@ public class Monster : MonoBehaviour
 
     private void SetupSoundPlayer()
     {
-        _soundPlayer = GetComponent<AudioDataCollection>();
-        _soundPlayer.InitAudio();
+        _sounds = GetComponent<AudioDataCollection>();
+        _sounds.InitAudio();
+    }
+
+    /// <summary>
+    /// Initializes the attack depending on monster
+    /// </summary>
+    private void SetupAttacks()
+    {
+        switch (monster)
+        {
+            case Enums.E_Monster.Verox:
+                GetComponentInChildren<DmgDealer>().Damage = _stats.Damage;
+                break;
+        }
     }
 
     private void ReceiveDamage(float value)
@@ -52,7 +82,7 @@ public class Monster : MonoBehaviour
             SetDead();
             return;
         }
-        _soundPlayer.PlayTargetSoundWithRandomPitch(Enums.E_Sound.GetHit);
+        _sounds.PlayTargetSoundWithRandomPitch(Enums.E_Sound.GetHit);
         _animator.Play("MonsterHurt");
     }
 
@@ -76,7 +106,8 @@ public class Monster : MonoBehaviour
         switch (layer)
         {
             case 8:
-                ReceiveDamage(collision.gameObject.GetComponent<DmgDealer>().Damage);
+                if (collision.gameObject.TryGetComponent(out DmgDealer dealer))
+                    ReceiveDamage(dealer.Damage);
                 break;
             default:
                 break;

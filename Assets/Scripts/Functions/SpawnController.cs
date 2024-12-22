@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class SpawnController : MonoBehaviour
 {
+    /// <summary>
+    /// Second timer is used for the hud to display the correct wave time.
+    /// </summary>
+    private int _secondTimer;
     /// <summary>
     /// The time for sending monsters inside monster state. Example: 0.5f ->
     /// Every 0.5 second a monster is spawned around player.
     /// </summary>
     private float _spawnRate = 0.5f;
     /// <summary>
-    /// How long the current state is active in seconds.
+    /// How long the current state is active in seconds
     /// </summary>
     private float _currentStateTime;
     /// <summary>
@@ -21,6 +23,16 @@ public class SpawnController : MonoBehaviour
     /// </summary>
     private float _currentSpawnRate;
     private SpawnStateData _currentSpawnState;
+    public SpawnStateData CurrentSpawnState
+    {
+        get { return _currentSpawnState; }
+        set
+        {
+            _currentSpawnState = value;
+            _hud.SetNewWave(value.state, value.duration);
+            _secondTimer = 1;
+        }
+    }
     /// <summary>
     /// The set difficulty for this spawner.
     /// </summary>
@@ -28,14 +40,16 @@ public class SpawnController : MonoBehaviour
     private Transform _playersTransform;
     private List<SpawnStateData> _spawnStatesData = new List<SpawnStateData>();
     private ObjectPooling _pools;
+    private Hud _hud;
 
-    public void SetupSpawner(Transform player)
+    public void SetupSpawner(Transform player, Hud hud)
     {
+        _hud = hud;
         _pools = GameControl.control.GetComponent<ObjectPooling>();
         _pools.ClearAllPools();
         _playersTransform = player;
         SetupDifficulty();
-        _currentSpawnState = _spawnStatesData.FirstOrDefault(s => s.state == Enums.E_SpawnState.Monster);
+        CurrentSpawnState = _spawnStatesData.FirstOrDefault(s => s.state == Enums.E_SpawnState.Monster);
     }
 
     private void SetupDifficulty()
@@ -113,22 +127,27 @@ public class SpawnController : MonoBehaviour
     private void Update()
     {
         var deltaTime = Time.deltaTime;
-        if (_currentSpawnState.IsEnding(_currentStateTime))
+        if (CurrentSpawnState.IsEnding(_currentStateTime))
         {
-            _currentSpawnState = GetNextSpawnState();
-            _currentSpawnState.SetNewDuration(_difficulty);
+            CurrentSpawnState = GetNextSpawnState();
+            CurrentSpawnState.SetNewDuration(_difficulty);
             _currentStateTime = 0f;
         }
         else
         {
             _currentStateTime += deltaTime;
+            if (_currentStateTime >= _secondTimer)
+            {
+                _secondTimer++;
+                _hud.RefreshWaveTime(CurrentSpawnState.duration - _secondTimer);
+            }
             DoAction(deltaTime);
         }
     }
 
     private void DoAction(float deltaTime)
     {
-        switch (_currentSpawnState.state)
+        switch (CurrentSpawnState.state)
         {
             case Enums.E_SpawnState.Idle:
                 break;
@@ -191,9 +210,9 @@ public class SpawnController : MonoBehaviour
         /// </summary>
         public float chance;
         /// <summary>
-        /// How long the state is active.
+        /// How long the state is active in seconds.
         /// </summary>
-        public float duration;
+        public int duration;
 
         public bool IsEnding(float currentTime) => currentTime >= duration;
 

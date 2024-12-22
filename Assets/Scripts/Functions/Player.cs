@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private HealthDisplay _healthDisplay;
     private Hud _hud;
     private ObjectPooling _pools;
-    private AudioDataCollection _soundPlayer;
+    private AudioDataCollection _sounds;
 
     // Prefabs
     public GameObject startWeapon;
@@ -46,8 +46,8 @@ public class Player : MonoBehaviour
 
     private void SetupSoundPlayer()
     {
-        _soundPlayer = GetComponent<AudioDataCollection>();
-        _soundPlayer.InitAudio();
+        _sounds = GetComponent<AudioDataCollection>();
+        _sounds.InitAudio();
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
     /// </summary>
     private void SetupSpawner()
     {
-        GetComponent<SpawnController>().SetupSpawner(transform);
+        GetComponent<SpawnController>().SetupSpawner(transform, _hud);
     }
 
     /// <summary>
@@ -134,12 +134,38 @@ public class Player : MonoBehaviour
         _stats.onLevelUp -= LevelUp;
     }
 
+    private void ReceiveDamage(float value)
+    {
+        _stats.Health -= value;
+        _healthDisplay.SetHealth(_stats.MaxHealth, _stats.Health);
+        if (_stats.Health <= 0)
+        {
+            SetDead();
+            return;
+        }
+        _sounds.PlayTargetSoundWithRandomPitch(Enums.E_Sound.GetHit);
+    }
+
+    private void ReceiveHealth(float value)
+    {
+        _stats.Health += value;
+    }
+
+    private void SetDead()
+    {
+        SetPause();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var layer = collision.gameObject.layer;
         switch (layer)
         {
             case 9:
+                if (collision.gameObject.TryGetComponent(out DmgDealer dealer))
+                    ReceiveDamage(dealer.Damage);
+                break;
+            case 10:
                 if (!collision.gameObject.TryGetComponent(out ExpOrb orb))
                     return;
 
@@ -148,7 +174,7 @@ public class Player : MonoBehaviour
                     orb.SetFollowTarget(transform);
                     return;
                 }
-                _soundPlayer.PlayTargetSoundWithRandomPitch(Enums.E_Sound.Collect);
+                _sounds.PlayTargetSoundWithRandomPitch(Enums.E_Sound.Collect);
                 _stats.CurrentExperience += orb.GetExperience();
                 _hud.RefreshExpProgress(_stats.CurrentExperience, _stats.CurrentNeededExperience);
                 _pools.ReAddToAvailablePool(orb.gameObject, Enums.E_RequestableObject.ExpOrb);
@@ -163,7 +189,7 @@ public class Player : MonoBehaviour
     /// </summary>
     private void LevelUp()
     {
-        _soundPlayer.PlayTargetSoundWithRandomPitch(Enums.E_Sound.LevelUp);
+        _sounds.PlayTargetSoundWithRandomPitch(Enums.E_Sound.LevelUp);
         _stats.Level++;
         _stats.CurrentExperience = 0;
         _stats.CurrentNeededExperience = Mathf.RoundToInt(_stats.CurrentNeededExperience * 1.5f - (_stats.Level / 10));

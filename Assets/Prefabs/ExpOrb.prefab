@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 4082922003111425081}
   - component: {fileID: 6102275008804350162}
   - component: {fileID: 1818453416137188285}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: ExpOrb
   m_TagString: Untagged
   m_Icon: {fileID: 0}

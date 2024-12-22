@@ -58,6 +58,7 @@ public class GameControl : MonoBehaviour
             Destroy(gameObject);
         }
 
+        Application.runInBackground = true;
         InitData();
     }
 
