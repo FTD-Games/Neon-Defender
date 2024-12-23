@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -5,14 +8,15 @@ public class Player : MonoBehaviour
     private Controls _controls;
     private Movement _movement;
     private BaseStats _stats;
-    private GameObject _myWeapon;
+    private List<GameObject> _weapons = new List<GameObject>();
     private HealthDisplay _healthDisplay;
     private Hud _hud;
     private ObjectPooling _pools;
     private AudioDataCollection _sounds;
 
     // Prefabs
-    public GameObject startWeapon;
+    [SerializeField]
+    private Enums.E_Weapon startWeapon;
 
     // Visual links
     public SpriteRenderer body;
@@ -27,7 +31,7 @@ public class Player : MonoBehaviour
         SetupCamera();
         SetupControls();
         SetupMovement();
-        SetupWeapon();
+        SetupStartWeapon();
         SetupHealthDisplay();
         SetupSpawner();
         SetupLevelDisplays();
@@ -93,10 +97,79 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Initializes the start weapon for the player.
     /// </summary>
-    private void SetupWeapon()
+    private void SetupStartWeapon()
     {
-        _myWeapon = Instantiate(startWeapon, transform);
-        _myWeapon.GetComponent<Sword>().SetupSword(1.25f, _stats.Damage, 100f);
+        var wep = Instantiate(GameControl.control.GetTargetWeapon(startWeapon), transform);
+        switch (startWeapon)
+        {
+            case Enums.E_Weapon.Sword:
+                if (wep.TryGetComponent(out Sword sword))
+                    sword.SetupSword(1.25f, _stats.Damage, 100f, 0);
+                _weapons.Add(wep);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Adds additional sword to weapons.
+    /// </summary>
+    private void AddSwordAmount()
+    {
+        var newWep = Instantiate(GameControl.control.GetTargetWeapon(Enums.E_Weapon.Sword), transform);
+        var allSwords = new List<Sword>();
+        foreach (var oneSword in FindAllWeaponsByType(Enums.E_Weapon.Sword))
+        {
+            allSwords.Add(oneSword.GetComponent<Sword>());
+        }
+        var highestSequence = allSwords.Max(s => s.SequenceNr);
+        var firstSword = allSwords.FirstOrDefault(s => s.SequenceNr == 0);
+        if (newWep.TryGetComponent(out Sword sword))
+        {
+            sword.SetupSword(firstSword.GetSize(), _stats.Damage, firstSword.GetRotationSpeed(), highestSequence + 1);
+        }
+        allSwords.Add(sword);
+        _weapons.Add(newWep);
+        RefreshSwordRotations(allSwords);
+    }
+
+    private void RefreshSwordRotations(List<Sword> allSwords)
+    {
+        for (int i = 0; i < allSwords.Count; i++)
+        {
+            if (i >= allSwords.Count - 1)
+                return;
+            var rot = allSwords.FirstOrDefault(s => s.SequenceNr == i).gameObject.transform.rotation;
+            var currRot = rot.eulerAngles;
+            var nextRot = new Vector3(rot.eulerAngles.x, rot.eulerAngles.y, rot.eulerAngles.z + (360f / allSwords.Count));
+            allSwords.FirstOrDefault(s => s.SequenceNr == i + 1).gameObject.transform.rotation = Quaternion.Euler(nextRot);
+        }
+    }
+
+    /// <summary>
+    /// Adds additional amount to weapon. (Only if possible)
+    /// </summary>
+    private void AddAmountToWeapon(Enums.E_Weapon wep)
+    {
+        if (!HasWeaponOfType(wep) || IsWeaponOnMaxAmount(wep))
+            return;
+
+        switch (wep)
+        {
+            case Enums.E_Weapon.Sword:
+                AddSwordAmount();
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Is the target weapon on max amount already?
+    /// </summary>
+    private bool IsWeaponOnMaxAmount(Enums.E_Weapon wep)
+    {
+        var maxAmount = GameControl.control.weapons.FirstOrDefault(w => w.type == wep).maxAmount;
+        return CurrentAmountOfEquippedWeaponType(wep) >= maxAmount;
     }
 
     /// <summary>
@@ -208,9 +281,55 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Called by the reward controller as event after the player took a reward.
     /// </summary>
-    private void RewardTaken(int rewardNr)
+    private void RewardTaken(GameControl.RewardData reward)
     {
-        Debug.Log($"TOOK REWARD: {rewardNr}");
+        var rewardType = reward.RewardType();
+
+        if (!HasWeaponOfRewardType(rewardType))
+            return;
+
+        var allWeaponsOfType = FindAllWeaponsByRewardType(rewardType);
+        switch (rewardType)
+        {
+            case Enums.E_Reward.SwordAmount:
+                AddAmountToWeapon(Enums.E_Weapon.Sword);
+                break;
+            case Enums.E_Reward.SwordLength:
+                foreach (var wep in allWeaponsOfType)
+                {
+                    if (wep.TryGetComponent(out Sword sword))
+                        sword.IncreaseLength();
+                }
+                break;
+            default:
+                Debug.LogWarning($"IMPLEMENT REWARD DATA FOR {reward.GetTitle()}");
+                break;
+        }
         _hud.CloseLevelUp();
     }
+
+    /// <summary>
+    /// Checks if any weapon is affected by target reward.
+    /// </summary>
+    private bool HasWeaponOfRewardType(Enums.E_Reward type) => _weapons.Any(w => w.GetComponent<WeaponIdent>().matchingRewards.Contains(type));
+
+    /// <summary>
+    /// Checks if player has weapon by type.
+    /// </summary>
+    private bool HasWeaponOfType(Enums.E_Weapon type) => _weapons.Any(w => w.GetComponent<WeaponIdent>().type == type);
+
+    /// <summary>
+    /// How many amount (weapons) has the player of the target weapon type?
+    /// </summary>
+    private int CurrentAmountOfEquippedWeaponType(Enums.E_Weapon type) => _weapons.Count(w => w.GetComponent<WeaponIdent>().type == type);
+
+    /// <summary>
+    /// Receives the weapons from target reward type.
+    /// </summary>
+    private List<GameObject> FindAllWeaponsByRewardType(Enums.E_Reward type) => _weapons.Where(w => w.GetComponent<WeaponIdent>().matchingRewards.Contains(type)).ToList();
+
+    /// <summary>
+    /// Receives the weapons from target type.
+    /// </summary>
+    private List<GameObject> FindAllWeaponsByType(Enums.E_Weapon type) => _weapons.Where(w => w.GetComponent<WeaponIdent>().type == type).ToList();
 }

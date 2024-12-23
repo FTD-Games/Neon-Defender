@@ -19,6 +19,7 @@ public class OneLvlRewardDisplay : MonoBehaviour
 
     private RewardController _rewardController;
     private int _rewardNr;
+    private GameControl.RewardData _rewardData;
 
     /// <summary>
     /// Initializes the reward display data.
@@ -32,14 +33,18 @@ public class OneLvlRewardDisplay : MonoBehaviour
     /// <summary>
     /// Set a new reward to display.
     /// </summary>
-    public void SetRewardDisplay()
+    public void SetRewardDisplay(GameControl.RewardData data)
     {
-
+        _rewardData = data;
+        icon.sprite = _rewardData.GetIcon();
+        titleText.text = _rewardData.GetTitle();
+        descText.text = _rewardData.GetDescription();
+        valueText.text = $"{_rewardData.Value}";
+        lvlText.text = $"Lvl. {_rewardData.Level}";
     }
 
     /// <summary>
     /// Called by pressing one of the take buttons from the rewards
     /// </summary>
-    /// <param name="rewardNr">Assigned in inspector</param>
-    public void TakeReward() => _rewardController.TriggerRewardTaken(_rewardNr);
+    public void TakeReward() => _rewardController.TriggerRewardTaken(_rewardData);
 }

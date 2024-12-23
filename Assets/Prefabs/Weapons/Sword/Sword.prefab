@@ -378,7 +378,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b0c7f8e523bf224fa836fe34bb97633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
+  matchingRewards: 0000000001000000
   sword: {fileID: 8607785294383424211}
+  attackTrigger: {fileID: 2027135607512728784}
 --- !u!114 &-162264417798398201
 MonoBehaviour:
   m_ObjectHideFlags: 0

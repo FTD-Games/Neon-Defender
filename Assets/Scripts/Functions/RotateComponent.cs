@@ -11,4 +11,6 @@ public class RotateComponent : MonoBehaviour
     }
 
     public void SetNewSpeed(float newSpeed) => _speed = newSpeed;
+
+    public float GetSpeed() => _speed;
 }

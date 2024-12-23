@@ -49,7 +49,7 @@ public class Hud : MonoBehaviour
         gameTime.StartStopGameTime(true);
     }
 
-    public void SetupRewardDisplay(Action<int> playerCallback)
+    public void SetupRewardDisplay(Action<GameControl.RewardData> playerCallback)
     {
         _rewardController.SetupRewardController(playerCallback);
     }

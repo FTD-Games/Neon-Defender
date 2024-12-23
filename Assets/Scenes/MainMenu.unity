@@ -901,8 +901,21 @@ MonoBehaviour:
     Size: 1
   - Type: 3
     Color: {r: 0.43176472, g: 0.14117643, b: 0.8117647, a: 1}
-    Experience: 4
+    Experience: 500
     Size: 1.1
+  rewardData:
+  - Type: 0
+    icon: {fileID: 21300000, guid: 00ecf64ab4f729a4e838c0cf7a21b5fd, type: 3}
+    title: Add Sword
+    description: Add one more swinging sword for ULTRA attacking.
+  - Type: 1
+    icon: {fileID: 21300000, guid: 4dbcc7ea62e29ef4483be282037b066c, type: 3}
+    title: Longer Sword
+    description: Increase lenght of sword. Longer is ALWAYS better.
+  weapons:
+  - maxAmount: 99
+    type: 0
+    prefab: {fileID: 8314125205947978521, guid: c1999e7a8ad92904ea6ab0c439710eb3, type: 3}
   hudPrefab: {fileID: 6306064849469277136, guid: 1ad8b9f8a3ee81543938161dd13d5b0a, type: 3}
 --- !u!4 &714926126
 Transform:

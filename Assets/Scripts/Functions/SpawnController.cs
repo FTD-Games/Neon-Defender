@@ -189,13 +189,20 @@ public class SpawnController : MonoBehaviour
     private void SpawnMonster()
     {
         var randomMonster = (Enums.E_Monster)UnityEngine.Random.Range(1, Enum.GetNames(typeof(Enums.E_Monster)).Length);
-        var randomPosition = new Vector3(UnityEngine.Random.Range(16, 24), UnityEngine.Random.Range(12, 18));
-        randomPosition.x *= UnityEngine.Random.value >= 0.5f ? -1 : 1;
-        randomPosition.y *= UnityEngine.Random.value >= 0.5f ? -1 : 1;
         var newMonster = _pools.GetAvailableObject(Enums.E_RequestableObject.Monster, randomMonster);
-        newMonster.transform.SetPositionAndRotation((_playersTransform.position + randomPosition), Quaternion.identity);
+        newMonster.transform.SetPositionAndRotation((_playersTransform.position + GetRandomPosAroundPlayer()), Quaternion.identity);
         newMonster.transform.parent = null;
         newMonster.GetComponent<Monster>().SetupMonster(_playersTransform, _pools);
+    }
+
+    private Vector3 GetRandomPosAroundPlayer()
+    {
+        var randomPos = new Vector3(UnityEngine.Random.Range(0, 24), UnityEngine.Random.Range(0, 16));
+        if (randomPos.x <= 8)
+            randomPos.y = UnityEngine.Random.Range(10, 16);
+        randomPos.x *= UnityEngine.Random.value >= 0.5f ? -1 : 1;
+        randomPos.y *= UnityEngine.Random.value >= 0.5f ? -1 : 1;
+        return randomPos;
     }
 
     /// <summary>

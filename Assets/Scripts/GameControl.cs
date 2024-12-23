@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -40,6 +41,14 @@ public class GameControl : MonoBehaviour
     /// List of ExpOrb data. 
     /// </summary>
     public List<OrbData> OrbDataList = new List<OrbData>();
+    /// <summary>
+    /// Data of the rewards that are assigned in the inspector.
+    /// </summary>
+    public List<RewardData> rewardData = new List<RewardData>();
+    /// <summary>
+    /// Data of the weapons that are assigned in the inspector.
+    /// </summary>
+    public List<WeaponData> weapons = new List<WeaponData>();
 
     #region PREFABS THAT CAN BE INSTANTIATED
     public GameObject hudPrefab;
@@ -90,6 +99,8 @@ public class GameControl : MonoBehaviour
         fileHandler.SaveProfile(control.profile);
     }
 
+    public GameObject GetTargetWeapon(Enums.E_Weapon targetWep) => weapons.FirstOrDefault(w => w.type == targetWep).prefab;
+
     [Serializable]
     public class OrbData
     {
@@ -97,5 +108,36 @@ public class GameControl : MonoBehaviour
         public Color Color;
         public int Experience;
         public float Size;
+    }
+
+    [Serializable]
+    public class RewardData
+    {
+        [SerializeField]
+        private Enums.E_Reward Type;
+        [SerializeField]
+        private Sprite icon;
+        [SerializeField]
+        private string title;
+        [SerializeField]
+        private string description;
+        public int Level { get; set; }
+        public float Value {  get; set; }
+
+        public Sprite GetIcon() => icon;
+        public Enums.E_Reward RewardType() => Type;
+        public string GetTitle() => title;
+        public string GetDescription() => description;
+    }
+
+    [Serializable]
+    public class WeaponData
+    {
+        /// <summary>
+        /// How many weapons can the player carry of this type?
+        /// </summary>
+        public int maxAmount;
+        public Enums.E_Weapon type;
+        public GameObject prefab;
     }
 }
