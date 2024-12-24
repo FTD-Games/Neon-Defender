@@ -19,12 +19,12 @@ public class ObjectPooling : MonoBehaviour
         }
     }
 
-    public GameObject GetAvailableObject(Enums.E_RequestableObject requestedObject, Enums.E_Monster targetMonster = Enums.E_Monster.None) => GetPoolsOfType(requestedObject).FirstOrDefault(p => p.requestMonster == targetMonster).GetAvailableObject();
+    public GameObject GetAvailableObject(Enums.E_RequestableObject requestedObject, Enums.E_Monster targetMonster = Enums.E_Monster.None, Enums.E_Bosses targetBoss= Enums.E_Bosses.None) => GetPoolsOfType(requestedObject).FirstOrDefault(p => p.requestMonster == targetMonster || p.requestBoss == targetBoss).GetAvailableObject();
 
-    public void ReAddToAvailablePool(GameObject finishedObject, Enums.E_RequestableObject finishedType, Enums.E_Monster targetMonster = Enums.E_Monster.None)
+    public void ReAddToAvailablePool(GameObject finishedObject, Enums.E_RequestableObject finishedType, Enums.E_Monster targetMonster = Enums.E_Monster.None, Enums.E_Bosses targetBoss = Enums.E_Bosses.None)
     {
         finishedObject.transform.SetParent(null);
-        var foundPool = GetPoolsOfType(finishedType).FirstOrDefault(p => p.requestMonster == targetMonster);
+        var foundPool = GetPoolsOfType(finishedType).FirstOrDefault(p => p.requestMonster == targetMonster || p.requestBoss == targetBoss);
         if (!foundPool.UsedPool().Contains(finishedObject))
         {
             Debug.LogWarning($"Object '{finishedObject}' with type '{finishedType}' lost in used pool?");
@@ -82,6 +82,7 @@ public class ObjectPooling : MonoBehaviour
         private readonly HashSet<GameObject> _usedPool = new();
         public GameObject myPrefab;
         public Enums.E_Monster requestMonster;
+        public Enums.E_Bosses requestBoss;
         public Enums.E_RequestableObject requestableObject;
 
         public Queue<GameObject> AvailablePool() => _availablePool;

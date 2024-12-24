@@ -14,7 +14,6 @@ public class Hud : MonoBehaviour
         }
     }
 
-    private bool _isPaused;
     [SerializeField]
     private LevelDisplay levelDisplay;
     [SerializeField]
@@ -123,4 +122,5 @@ public class Hud : MonoBehaviour
     public void RefreshExperienceStat(float value) => _statsDisplay.RefreshExperienceStat(value);
     public void RefreshCritChanceStat(float value) => _statsDisplay.RefreshCritChanceStat(value);
     public void RefreshCritDamageStat(float value) => _statsDisplay.RefreshCritDamageStat(value);
+    public void RefreshCollectRangeStat(float value) => _statsDisplay.RefreshCollectRangeStat(value);
 }

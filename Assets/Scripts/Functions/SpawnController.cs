@@ -42,6 +42,10 @@ public class SpawnController : MonoBehaviour
     private ObjectPooling _pools;
     private Hud _hud;
 
+    // Test values can be removed on release
+    public bool useTestState;
+    public Enums.E_SpawnState testState;
+
     public void SetupSpawner(Transform player, Hud hud)
     {
         _hud = hud;
@@ -163,6 +167,15 @@ public class SpawnController : MonoBehaviour
                 }
                 break;
             case Enums.E_SpawnState.Boss:
+                if (_currentSpawnRate >= _spawnRate)
+                {
+                    SpawnBoss();
+                    _currentSpawnRate = -CurrentSpawnState.duration - 1; // only spawn 1x boss 
+                }
+                else
+                {
+                    _currentSpawnRate += deltaTime;
+                }
                 break;
             default:
                 Debug.LogWarning("Spawner no state?!");
@@ -175,6 +188,9 @@ public class SpawnController : MonoBehaviour
     /// </summary>
     private SpawnStateData GetNextSpawnState()
     {
+        if (useTestState)
+            return _spawnStatesData.FirstOrDefault(s => s.state == testState);
+
         var randomValue = UnityEngine.Random.value; // Value between 0 - 1
         var currSumChance = 0f; // Summed up chance to evaluate
         foreach (var state in _spawnStatesData)
@@ -195,6 +211,15 @@ public class SpawnController : MonoBehaviour
         newMonster.GetComponent<Monster>().SetupMonster(_playersTransform, _pools);
     }
 
+    private void SpawnBoss()
+    {
+        var randomBoss = (Enums.E_Bosses)UnityEngine.Random.Range(1, Enum.GetNames(typeof(Enums.E_Bosses)).Length);
+        var newBoss = _pools.GetAvailableObject(Enums.E_RequestableObject.Boss, Enums.E_Monster.None, randomBoss);
+        newBoss.transform.SetPositionAndRotation((_playersTransform.position + GetRandomPosAroundPlayer()), Quaternion.identity);
+        newBoss.transform.parent = null;
+        newBoss.GetComponent<Monster>().SetupMonster(_playersTransform, _pools);
+    }
+
     private Vector3 GetRandomPosAroundPlayer()
     {
         var randomPos = new Vector3(UnityEngine.Random.Range(0, 24), UnityEngine.Random.Range(0, 16));
@@ -206,7 +231,7 @@ public class SpawnController : MonoBehaviour
     }
 
     /// <summary>
-    /// Here the chances for each rarity can be entered in the unity inspector.
+    /// The spawn data for each state.
     /// </summary>
     [Serializable]
     public class SpawnStateData

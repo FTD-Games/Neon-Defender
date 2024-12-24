@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -20,6 +19,10 @@ public class Player : MonoBehaviour
 
     // Visual links
     public SpriteRenderer body;
+
+    // Functional links
+    [SerializeField]
+    private CircleCollider2D _followCollectArea;
 
     private void Start()
     {
@@ -241,22 +244,27 @@ public class Player : MonoBehaviour
                     ReceiveDamage(dealer.Damage);
                 break;
             case 10:
-                if (!collision.gameObject.TryGetComponent(out ExpOrb orb))
+               if (!collision.gameObject.TryGetComponent(out ExpOrb orb))
                     return;
 
-                if (Vector3.Distance(transform.position, collision.transform.position) >= 1)
+                if (Vector3.Distance(transform.position, collision.transform.position) >= 0.5f)
                 {
-                    orb.SetFollowTarget(transform);
+                    orb.SetFollowTarget(transform, CollectOrb, 0.5f);
                     return;
                 }
-                _sounds.PlayTargetSoundWithRandomPitch(Enums.E_Sound.Collect);
-                _stats.CurrentExperience += orb.GetExperience();
-                _hud.RefreshExpProgress(_stats.CurrentExperience, _stats.CurrentNeededExperience);
-                _pools.ReAddToAvailablePool(orb.gameObject, Enums.E_RequestableObject.ExpOrb);
+                CollectOrb(orb);
                 break;
             default:
                 break;
         }
+    }
+
+    private void CollectOrb(ExpOrb orb)
+    {
+        _sounds.PlayTargetSoundWithRandomPitch(Enums.E_Sound.Collect);
+        _stats.CurrentExperience += orb.GetExperience();
+        _hud.RefreshExpProgress(_stats.CurrentExperience, _stats.CurrentNeededExperience);
+        _pools.ReAddToAvailablePool(orb.gameObject, Enums.E_RequestableObject.ExpOrb);
     }
 
     /// <summary>

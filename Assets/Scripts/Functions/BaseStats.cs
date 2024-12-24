@@ -22,6 +22,8 @@ public class BaseStats : MonoBehaviour
     private float critChance;
     [SerializeField]
     private float critDamage;
+    [SerializeField]
+    private float collectRange;
     #endregion UNITY INSPECTOR VALUES (START VALUES)
 
     #region REAL TIME VALUES IN-GAME
@@ -134,6 +136,22 @@ public class BaseStats : MonoBehaviour
         }
     }
 
+    private float _collectRange;
+    /// <summary>
+    /// Current crit damage that can be manipulated.
+    /// </summary>
+    public float CollectRange
+    {
+        get { return _collectRange; }
+        set
+        {
+            _collectRange = value;
+            if (!_displayedOnHud)
+                return;
+            _hud.RefreshCollectRangeStat(value);
+        }
+    }
+
     private int _currExperience;
     /// <summary>
     /// Current experience of the player that can be manipulated.
@@ -196,6 +214,7 @@ public class BaseStats : MonoBehaviour
         Damage = damage;
         CritChance = critChance;
         CritDamage = critDamage;
+        CollectRange = collectRange;
         Speed = speed;
         Level = 1;
         CurrentExperience = 0;

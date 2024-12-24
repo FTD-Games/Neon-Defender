@@ -1,11 +1,10 @@
 using System;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : EnemyIdent
 {
     private bool _isSetup;
 
-    public Enums.E_Monster monster;
     private BaseStats _stats;
     private FollowTarget _followTarget;
     private Animator _animator;
@@ -13,7 +12,7 @@ public class Monster : MonoBehaviour
     private AudioDataCollection _sounds;
 
     // Visual links
-    public SpriteRenderer body;
+    public SpriteRenderer[] bodies;
     public GameObject expOrb;
 
     public void SetupMonster(Transform target, ObjectPooling pool)
@@ -67,6 +66,16 @@ public class Monster : MonoBehaviour
     /// </summary>
     private void SetupAttacks()
     {
+        if (IsBoss())
+        {
+            switch (boss)
+            {
+                case Enums.E_Bosses.Sanja:
+                    GetComponentInChildren<DmgDealer>().Damage = _stats.Damage;
+                    break;
+            }
+            return;
+        }
         switch (monster)
         {
             case Enums.E_Monster.Verox:
@@ -97,7 +106,7 @@ public class Monster : MonoBehaviour
         newOrb.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         newOrb.transform.parent = null;
         newOrb.GetComponent<ExpOrb>().OrbType = (Enums.E_ExpOrbType) UnityEngine.Random.Range(0, Enum.GetNames(typeof(Enums.E_ExpOrbType)).Length);
-        _pool.ReAddToAvailablePool(gameObject, Enums.E_RequestableObject.Monster, monster);
+        _pool.ReAddToAvailablePool(gameObject, IsBoss() ? Enums.E_RequestableObject.Boss : Enums.E_RequestableObject.Monster, monster, boss);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -117,5 +126,11 @@ public class Monster : MonoBehaviour
     /// <summary>
     /// Called by the movement as event when the players direction has changed.
     /// </summary>
-    private void MovementDirectionChanged(bool isMovingRight) => body.flipX = !isMovingRight;
+    private void MovementDirectionChanged(bool isMovingRight)
+    {
+        foreach (var body in bodies)
+        {
+            body.flipX = !isMovingRight;
+        }
+    }
 }

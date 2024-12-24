@@ -884,7 +884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developmentState: 0
   profileVersion: A
-  gameVersion: 013
+  gameVersion: 014
   selectedDifficulty: 1
   OrbDataList:
   - Type: 0
@@ -901,7 +901,7 @@ MonoBehaviour:
     Size: 1
   - Type: 3
     Color: {r: 0.43176472, g: 0.14117643, b: 0.8117647, a: 1}
-    Experience: 500
+    Experience: 4
     Size: 1.1
   rewardData:
   - Type: 0
@@ -948,11 +948,18 @@ MonoBehaviour:
   - preLoadAmount: 100
     myPrefab: {fileID: 2487979555296519836, guid: b86a6f31b21b71e4b9c0feca2a41112a, type: 3}
     requestMonster: 1
+    requestBoss: 0
     requestableObject: 0
   - preLoadAmount: 100
     myPrefab: {fileID: 7934783849644871020, guid: 1166016dfb42cc740aa97dde63a99030, type: 3}
     requestMonster: 0
+    requestBoss: 0
     requestableObject: 1
+  - preLoadAmount: 2
+    myPrefab: {fileID: 2487979555296519836, guid: 1d9c38aa56801944ca06fdde12410863, type: 3}
+    requestMonster: 0
+    requestBoss: 1
+    requestableObject: 2
 --- !u!1 &728805542
 GameObject:
   m_ObjectHideFlags: 0

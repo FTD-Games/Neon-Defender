@@ -16,6 +16,8 @@ public class StatsDisplay : MonoBehaviour
     private OneStatDisplay _critChanceStat;
     [SerializeField]
     private OneStatDisplay _critDamageStat;
+    [SerializeField]
+    private OneStatDisplay _collectRangeStat;
 
     public void RefreshHealthStat(float value) => _healthStat.RefreshStat(value);
     public void RefreshArmorStat(float value) => _armorStat.RefreshStat(value);
@@ -24,4 +26,5 @@ public class StatsDisplay : MonoBehaviour
     public void RefreshExperienceStat(float value) => _experienceStat.RefreshStat(value);
     public void RefreshCritChanceStat(float value) => _critChanceStat.RefreshStat(value);
     public void RefreshCritDamageStat(float value) => _critDamageStat.RefreshStat(value);
+    public void RefreshCollectRangeStat(float value) => _collectRangeStat.RefreshStat(value);
 }

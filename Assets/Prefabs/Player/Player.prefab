@@ -652,7 +652,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8991168149233518414}
   - component: {fileID: 2316895085276586931}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: CollectArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -709,7 +709,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1.2
+  m_Radius: 1.5
 --- !u!1 &8418150796832662838
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,8 +798,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73253829f2ecf54da6d8c738691cf59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startWeapon: {fileID: 8314125205947978521, guid: c1999e7a8ad92904ea6ab0c439710eb3, type: 3}
+  startWeapon: 0
   body: {fileID: 4834721741754956364}
+  _followCollectArea: {fileID: 2316895085276586931}
 --- !u!114 &7261515539094884081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -843,6 +844,7 @@ MonoBehaviour:
   experience: 0
   critChance: 5
   critDamage: 15
+  collectRange: 1.5
 --- !u!114 &5406304040781634543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,6 +857,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392dd084145da394b852097dd1993444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useTestState: 1
+  testState: 2
 --- !u!114 &4163401894967762892
 MonoBehaviour:
   m_ObjectHideFlags: 0
