@@ -857,7 +857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392dd084145da394b852097dd1993444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useTestState: 1
+  useTestState: 0
   testState: 2
 --- !u!114 &4163401894967762892
 MonoBehaviour:

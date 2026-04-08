@@ -186,7 +186,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      idleCoffeePauseChill128_0: 1473996160424300352
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
